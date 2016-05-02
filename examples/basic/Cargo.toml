@@ -9,3 +9,6 @@ sapper = { path = "../../../sapper" }
 sapper_body_params = { path="../../" }
 log = "0.3"
 env_logger = "0.3"
+serde = "0.7"
+serde_json = "0.7"
+serde_macros = "0.7"

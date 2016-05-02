@@ -5,6 +5,8 @@ use sapper::Request;
 use sapper::Response;
 use sapper::SRouter;
 
+use serde_json;
+
 #[derive(Clone)]
 pub struct Biz;
 
@@ -65,9 +67,10 @@ impl Biz {
     fn test_jsonbody(req: &mut Request) -> Result<Response> {
         
         println!("in test_jsonbody, raw_body: {:?}", req.raw_body());
-        // POST http://localhost:1337/test 
-        // with body a=1&b=2&c=3&a=4
+        // POST http://localhost:1337/test_jsonbody
+        // with body {"a":1, "b":2, "c":3}
         // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
+        // output: Some({"a":1,"b":2,"c":3})
         println!("{:?}", req.get_ext().get::<ReqJsonParams>());
         
         // queries is now an Option<HashMap<String, Vec<String>>>
@@ -93,23 +96,22 @@ impl Biz {
     fn test_jsonbody2(req: &mut Request) -> Result<Response> {
         
         println!("in test_jsonbody2, raw_body: {:?}", req.raw_body());
-        // POST http://localhost:1337/test 
-        // with body a=1&b=2&c=3&a=4
-        // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
-        // println!("{:?}", req.get_ext().get::<ReqJsonParams>());
-        
-        // queries is now an Option<HashMap<String, Vec<String>>>
-        // let object: Option<User> = req.get_ext().get::<ReqJsonParams>();
-        // if object.is_some() {
-        //     println!("{:?}", object);
-        //     // do something
-        //     // let a = queries.get("a");
-        //     // println!("{}", a);
+        // POST http://localhost:1337/test_jsonbody2 
+        // with body {"name":"Tang", "age":22}
+        // output: user is User { name: "Tang", age: 22 }
+        let object = req.get_ext().get::<ReqJsonParams>();
+        if object.is_some() {
+            // let user: User = serde_json::from_value(object.unwrap().clone()).unwrap();
+            let user = serde_json::from_value::<User>(object.unwrap().clone()).unwrap();
+            println!("user is {:?}", user);
+            // do something
+            // let a = queries.get("a");
+            // println!("{}", a);
             
-        // }
-        // else {
+        }
+        else {
             
-        // }
+        }
         
         let mut response = Response::new();
         response.write_body("hello, from json2 handler !".to_string());

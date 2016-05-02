@@ -1,11 +1,14 @@
 #![feature(question_mark)]
-#![feature(custom_derive)]
+#![feature(custom_derive, plugin)]
+#![plugin(serde_macros)]
 
 extern crate sapper;
 extern crate sapper_body_params;
 extern crate env_logger;
 #[macro_use]
 extern crate log;
+extern crate serde;
+extern crate serde_json;
 
 use sapper::{SApp, SAppWrapper, Request, Response, Result};
 

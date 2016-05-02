@@ -8,7 +8,7 @@ use sapper::SRouter;
 #[derive(Clone)]
 pub struct Biz;
 
-use sapper_body_params::BodyParams;
+use sapper_body_params::ReqBodyParams;
 
 impl Biz {
     // those handlers in module Biz
@@ -37,10 +37,10 @@ impl Biz {
         // POST http://localhost:1337/test 
         // with body a=1&b=2&c=3&a=4
         // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
-        println!("{:?}", req.get_ext().get::<BodyParams>());
+        println!("{:?}", req.get_ext().get::<ReqBodyParams>());
         
         // queries is now an Option<HashMap<String, Vec<String>>>
-        let body_params = req.get_ext().get::<BodyParams>();
+        let body_params = req.get_ext().get::<ReqBodyParams>();
         if body_params.is_some() {
             
             // do something

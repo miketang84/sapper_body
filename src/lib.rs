@@ -11,8 +11,8 @@ use sapper::{Request, Result, Key};
 
 pub type BodyMap = HashMap<String, Vec<String>>;
 
-pub struct BodyParams;
-impl Key for BodyParams { type Value = BodyMap; }
+pub struct ReqBodyParams;
+impl Key for ReqBodyParams { type Value = BodyMap; }
 
 pub fn process(req: &mut Request) -> Result<()> {
     
@@ -34,7 +34,7 @@ pub fn process(req: &mut Request) -> Result<()> {
                 };
             }
             
-            req.get_ext_mut().insert::<BodyParams>(deduplicated);
+            req.get_ext_mut().insert::<ReqBodyParams>(deduplicated);
         },
         None => {
             // do nothing

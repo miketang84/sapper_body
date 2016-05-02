@@ -3,6 +3,7 @@
 #![plugin(serde_macros)]
 
 extern crate sapper;
+#[macro_use]
 extern crate sapper_body_params;
 extern crate env_logger;
 #[macro_use]

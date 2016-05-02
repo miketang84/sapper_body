@@ -22,6 +22,16 @@ use serde_json::Value as JsonValue;
 pub struct ReqJsonParams;
 impl Key for ReqJsonParams { type Value = JsonValue; }
 
+// convert_to_struct
+#[macro_export]
+macro_rules! json2struct {
+    ($obj:expr, $atype:ty) => ({
+        serde_json::from_value::<$atype>($obj.clone()).ok()
+    })
+}
+
+
+
 pub fn process(req: &mut Request) -> Result<()> {
     
     

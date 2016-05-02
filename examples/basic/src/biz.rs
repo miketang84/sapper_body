@@ -9,7 +9,6 @@ use serde_json;
 
 #[derive(Clone)]
 pub struct Biz;
-
 use sapper_body_params::{ReqBodyParams, ReqJsonParams};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -77,10 +76,6 @@ impl Biz {
         let json_params = req.get_ext().get::<ReqJsonParams>();
         if json_params.is_some() {
             println!("{:?}", json_params);
-            // do something
-            // let a = queries.get("a");
-            // println!("{}", a);
-            
         }
         else {
             
@@ -102,11 +97,9 @@ impl Biz {
         let object = req.get_ext().get::<ReqJsonParams>();
         if object.is_some() {
             // let user: User = serde_json::from_value(object.unwrap().clone()).unwrap();
-            let user = serde_json::from_value::<User>(object.unwrap().clone()).unwrap();
+            // let user = serde_json::from_value::<User>(object.unwrap().clone()).unwrap();
+            let user = json2struct!(object.unwrap(), User);
             println!("user is {:?}", user);
-            // do something
-            // let a = queries.get("a");
-            // println!("{}", a);
             
         }
         else {

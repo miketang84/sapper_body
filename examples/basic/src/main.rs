@@ -1,3 +1,5 @@
+#![feature(question_mark)]
+#![feature(custom_derive)]
 
 extern crate sapper;
 extern crate sapper_body_params;
@@ -20,7 +22,7 @@ struct MyApp;
 impl SAppWrapper for MyApp {
     fn before(&self, req: &mut Request) -> Result<()> {
         println!("{}", "in SAppWrapper before.");
-        sapper_body_params::process(req).unwrap();
+        sapper_body_params::process(req)?;
         
         Ok(())
     }

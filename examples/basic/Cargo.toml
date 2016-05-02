@@ -4,7 +4,8 @@ version = "0.1.0"
 authors = ["Mike Tang <miketang84@outlook.com>"]
 
 [dependencies]
-sapper = { git="https://github.com/sappworks/sapper" }
+#sapper = { git="https://github.com/sappworks/sapper" }
+sapper = { path = "../../../sapper" }
 sapper_body_params = { path="../../" }
 log = "0.3"
 env_logger = "0.3"

@@ -45,10 +45,10 @@ impl Biz {
         // POST http://localhost:1337/test 
         // with body a=1&b=2&c=3&a=4
         // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
-        println!("{:?}", req.get_ext().get::<ReqBodyParams>());
+        println!("{:?}", req.ext().get::<ReqBodyParams>());
         
         // queries is now an Option<HashMap<String, Vec<String>>>
-        let body_params = req.get_ext().get::<ReqBodyParams>();
+        let body_params = req.ext().get::<ReqBodyParams>();
         if body_params.is_some() {
             
             // do something
@@ -70,10 +70,10 @@ impl Biz {
         // with body {"a":1, "b":2, "c":3}
         // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
         // output: Some({"a":1,"b":2,"c":3})
-        println!("{:?}", req.get_ext().get::<ReqJsonParams>());
+        println!("{:?}", req.ext().get::<ReqJsonParams>());
         
         // queries is now an Option<HashMap<String, Vec<String>>>
-        let json_params = req.get_ext().get::<ReqJsonParams>();
+        let json_params = req.ext().get::<ReqJsonParams>();
         if json_params.is_some() {
             println!("{:?}", json_params);
         }
@@ -94,7 +94,7 @@ impl Biz {
         // POST http://localhost:1337/test_jsonbody2 
         // with body {"name":"Tang", "age":22}
         // output: user is User { name: "Tang", age: 22 }
-        let object = req.get_ext().get::<ReqJsonParams>();
+        let object = req.ext().get::<ReqJsonParams>();
         if object.is_some() {
             // let user: User = serde_json::from_value(object.unwrap().clone()).unwrap();
             // let user = serde_json::from_value::<User>(object.unwrap().clone()).unwrap();

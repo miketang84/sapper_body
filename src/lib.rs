@@ -52,7 +52,7 @@ pub fn process(req: &mut Request) -> Result<()> {
                 match serde_json::from_str(raw_body) {
                     Ok(val) => {
                         // println!("parsing json {:?}", val);
-                        req.get_ext_mut().insert::<ReqJsonParams>(val);
+                        req.ext_mut().insert::<ReqJsonParams>(val);
                         
                         return Ok(());
                     }
@@ -79,7 +79,7 @@ pub fn process(req: &mut Request) -> Result<()> {
                     };
                 }
                 
-                req.get_ext_mut().insert::<ReqBodyParams>(deduplicated);
+                req.ext_mut().insert::<ReqBodyParams>(deduplicated);
             }
         },
         None => {

@@ -9,5 +9,5 @@ serde = "0.7"
 serde_json = "0.7"
 serde_macros = "0.7"
 
-#sapper = { git="https://github.com/sappworks/sapper" }
-sapper = { path="../sapper" }
+sapper = { git="https://github.com/sappworks/sapper" }
+#sapper = { path="../sapper" }

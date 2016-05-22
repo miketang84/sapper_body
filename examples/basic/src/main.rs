@@ -47,7 +47,7 @@ pub fn main() {
     sapp.address("127.0.0.1")
         .port(1337)
         .with_wrapper(MyApp)
-        .add_module(Biz);
+        .add_module(Box::new(Biz));
     
     println!("Listening on http://127.0.0.1:1337");
     sapp.run();

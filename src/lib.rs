@@ -5,13 +5,14 @@ extern crate url;
 extern crate serde;
 extern crate serde_json;
 
+use std::str;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::*;
 use url::form_urlencoded;
 
 use sapper::mime;
 use sapper::header::ContentType;
-use sapper::{Request, Result, Key, Error};
+use sapper::{Request, Result, Key};
 
 pub type BodyMap = HashMap<String, Vec<String>>;
 
@@ -49,7 +50,12 @@ pub fn process(req: &mut Request) -> Result<()> {
             
             // judge json type first, json type is 1
             if typenum == 1 {
-                match serde_json::from_str(raw_body) {
+                let raw_body_str_wrap = str::from_utf8(raw_body);
+                let raw_body_str = match raw_body_str_wrap {
+                    Ok(raw_body_str) => raw_body_str,
+                    Err(_) => return Ok(())
+                };
+                match serde_json::from_str(raw_body_str) {
                     Ok(val) => {
                         // println!("parsing json {:?}", val);
                         req.ext_mut().insert::<ReqJsonParams>(val);
@@ -66,7 +72,7 @@ pub fn process(req: &mut Request) -> Result<()> {
             // else if content_type == ContentType::form_url_encoded() {
             else {
                 // default branch
-                let body_iter = form_urlencoded::parse(raw_body.as_bytes());
+                let body_iter = form_urlencoded::parse(&raw_body[..]);
         
                 let mut deduplicated: BodyMap = HashMap::new();
                 for (key, val) in body_iter {

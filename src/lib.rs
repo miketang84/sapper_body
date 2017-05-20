@@ -1,4 +1,3 @@
-#![feature(custom_derive)]
 extern crate sapper;
 extern crate url;
 extern crate serde;
@@ -34,9 +33,8 @@ macro_rules! json2struct {
 
 pub fn process(req: &mut Request) -> Result<()> {
     
-    
     // should judge the content-type in the request headers
-    let raw_body = req.raw_body().clone();
+    let raw_body = req.body();
     match raw_body {
         Some(ref raw_body) => {
             
@@ -57,7 +55,7 @@ pub fn process(req: &mut Request) -> Result<()> {
                 match serde_json::from_str(raw_body_str) {
                     Ok(val) => {
                         // println!("parsing json {:?}", val);
-                        req.ext_mut().insert::<ReqJsonParams>(val);
+                        req.ext_mut().insert::<JsonParams>(val);
                         
                         return Ok(());
                     }
@@ -84,7 +82,7 @@ pub fn process(req: &mut Request) -> Result<()> {
                     };
                 }
                 
-                req.ext_mut().insert::<ReqBodyParams>(deduplicated);
+                req.ext_mut().insert::<BodyParams>(deduplicated);
             }
         },
         None => {

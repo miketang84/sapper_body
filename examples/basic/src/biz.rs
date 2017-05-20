@@ -1,15 +1,15 @@
 
 use sapper::Result;
-use sapper::SModule;
+use sapper::SapperModule;
 use sapper::Request;
 use sapper::Response;
-use sapper::SRouter;
+use sapper::SapperRouter;
 
 use serde_json;
 
 #[derive(Clone)]
 pub struct Biz;
-use sapper_body_params::{ReqBodyParams, ReqJsonParams};
+use sapper_body::{BodyParams, JsonParams};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct User {
@@ -41,14 +41,14 @@ impl Biz {
     
     fn test_post(req: &mut Request) -> Result<Response> {
         
-        println!("in test_post, raw_body: {:?}", req.raw_body());
+        println!("in test_post, raw_body: {:?}", req.body());
         // POST http://localhost:1337/test 
         // with body a=1&b=2&c=3&a=4
         // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
-        println!("{:?}", req.ext().get::<ReqBodyParams>());
+        println!("{:?}", req.ext().get::<BodyParams>());
         
         // queries is now an Option<HashMap<String, Vec<String>>>
-        let body_params = req.ext().get::<ReqBodyParams>();
+        let body_params = req.ext().get::<BodyParams>();
         if body_params.is_some() {
             
             // do something
@@ -65,15 +65,15 @@ impl Biz {
     
     fn test_jsonbody(req: &mut Request) -> Result<Response> {
         
-        println!("in test_jsonbody, raw_body: {:?}", req.raw_body());
+        println!("in test_jsonbody, raw_body: {:?}", req.body());
         // POST http://localhost:1337/test_jsonbody
         // with body {"a":1, "b":2, "c":3}
         // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
         // output: Some({"a":1,"b":2,"c":3})
-        println!("{:?}", req.ext().get::<ReqJsonParams>());
+        println!("{:?}", req.ext().get::<JsonParams>());
         
         // queries is now an Option<HashMap<String, Vec<String>>>
-        let json_params = req.ext().get::<ReqJsonParams>();
+        let json_params = req.ext().get::<JsonParams>();
         if json_params.is_some() {
             println!("{:?}", json_params);
         }
@@ -90,16 +90,16 @@ impl Biz {
     
     fn test_jsonbody2(req: &mut Request) -> Result<Response> {
         
-        println!("in test_jsonbody2, raw_body: {:?}", req.raw_body());
+        println!("in test_jsonbody2, raw_body: {:?}", req.body());
         // POST http://localhost:1337/test_jsonbody2 
         // with body {"name":"Tang", "age":22}
         // output: user is User { name: "Tang", age: 22 }
-        let object = req.ext().get::<ReqJsonParams>();
+        let object = req.ext().get::<JsonParams>();
         if object.is_some() {
             // let user: User = serde_json::from_value(object.unwrap().clone()).unwrap();
             // let user = serde_json::from_value::<User>(object.unwrap().clone()).unwrap();
-            let user = json2struct!(object.unwrap(), User);
-            println!("user is {:?}", user);
+            //let user = json2struct!(object.unwrap(), User);
+            //println!("user is {:?}", user);
             
         }
         else {
@@ -114,7 +114,7 @@ impl Biz {
 }
 
 // set before, after middleware, and add routers
-impl SModule for Biz {
+impl SapperModule for Biz {
     
     fn before(&self, req: &mut Request) -> Result<()> {
         println!("{}", "in Biz before.");
@@ -128,7 +128,7 @@ impl SModule for Biz {
     }
     
     // here add routers ....
-    fn router(&self, router: &mut SRouter) -> Result<()> {
+    fn router(&self, router: &mut SapperRouter) -> Result<()> {
         // need to use Router struct here
         // XXX: here could not write as this, should record first, not parse it now
         

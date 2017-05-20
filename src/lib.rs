@@ -15,12 +15,12 @@ use sapper::{Request, Result, Key};
 
 pub type BodyMap = HashMap<String, Vec<String>>;
 
-pub struct ReqBodyParams;
-impl Key for ReqBodyParams { type Value = BodyMap; }
+pub struct BodyParams;
+impl Key for BodyParams { type Value = BodyMap; }
 
 use serde_json::Value as JsonValue;
-pub struct ReqJsonParams;
-impl Key for ReqJsonParams { type Value = JsonValue; }
+pub struct JsonParams;
+impl Key for JsonParams { type Value = JsonValue; }
 
 // convert_to_struct
 #[macro_export]

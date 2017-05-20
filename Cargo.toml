@@ -1,11 +1,12 @@
 [package]
-name = "sapper_body_params"
+name = "sapper_body"
 version = "0.1.0"
 authors = ["Mike Tang <miketang84@outlook.com>"]
 
 [dependencies]
-url = "1.0"
-serde = "0.7"
-serde_json = "0.7"
+url = "*"
+serde = "*"
+serde_json = "*"
 
 sapper = { git="https://github.com/sappworks/sapper" }
+

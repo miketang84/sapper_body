@@ -14,22 +14,12 @@ use sapper::{Request, Result, Key};
 
 pub type BodyMap = HashMap<String, Vec<String>>;
 
-pub struct BodyParams;
-impl Key for BodyParams { type Value = BodyMap; }
+pub struct FormParams;
+impl Key for FormParams { type Value = BodyMap; }
 
 use serde_json::Value as JsonValue;
 pub struct JsonParams;
 impl Key for JsonParams { type Value = JsonValue; }
-
-// convert_to_struct
-#[macro_export]
-macro_rules! json2struct {
-    ($obj:expr, $atype:ty) => ({
-        serde_json::from_value::<$atype>($obj.clone()).ok()
-    })
-}
-
-
 
 pub fn process(req: &mut Request) -> Result<()> {
     
@@ -82,7 +72,7 @@ pub fn process(req: &mut Request) -> Result<()> {
                     };
                 }
                 
-                req.ext_mut().insert::<BodyParams>(deduplicated);
+                req.ext_mut().insert::<FormParams>(deduplicated);
             }
         },
         None => {

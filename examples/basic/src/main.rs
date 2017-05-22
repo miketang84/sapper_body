@@ -24,7 +24,7 @@ struct MyApp;
 impl SapperAppShell for MyApp {
     fn before(&self, req: &mut Request) -> Result<()> {
         println!("{}", "in SAppWrapper before.");
-        sapper_body::process(req)?;
+        sapper_body::parse(req)?;
         
         Ok(())
     }

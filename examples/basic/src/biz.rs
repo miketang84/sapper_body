@@ -9,7 +9,7 @@ use serde_json;
 
 #[derive(Clone)]
 pub struct Biz;
-use sapper_body::{BodyParams, JsonParams};
+use sapper_body::{FormParams, JsonParams};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct User {
@@ -45,10 +45,10 @@ impl Biz {
         // POST http://localhost:1337/test 
         // with body a=1&b=2&c=3&a=4
         // Some({"a": ["1", "4"], "b": ["2"], "c": ["3"]})
-        println!("{:?}", req.ext().get::<BodyParams>());
+        println!("{:?}", req.ext().get::<FormParams>());
         
         // queries is now an Option<HashMap<String, Vec<String>>>
-        let body_params = req.ext().get::<BodyParams>();
+        let body_params = req.ext().get::<FormParams>();
         if body_params.is_some() {
             
             // do something

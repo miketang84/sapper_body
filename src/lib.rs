@@ -21,7 +21,7 @@ use serde_json::Value as JsonValue;
 pub struct JsonParams;
 impl Key for JsonParams { type Value = JsonValue; }
 
-pub fn process(req: &mut Request) -> Result<()> {
+pub fn parse(req: &mut Request) -> Result<()> {
     
     // should judge the content-type in the request headers
     let raw_body = req.body();

@@ -2,11 +2,12 @@
 name = "sapper_body"
 version = "0.1.0"
 authors = ["Mike Tang <miketang84@outlook.com>"]
+license = "MIT"
+description = "Body parsing module for sapper web framework."
 
 [dependencies]
-url = "1.4.0"
-serde = "1.0.7"
-serde_json = "1.0.2"
-
-sapper = { git="https://github.com/sappworks/sapper" }
+url = "1.5"
+serde = "1.0"
+serde_json = "1.0"
+sapper = "0.1"
 
